@@ -1,0 +1,150 @@
+import java.util.Random;
+import java.util.Scanner;
+
+// Juan José Ruiz Rodelo
+public class Aspirantes {
+    
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Random random = new Random();
+
+        String[][] aspirantes = new String[10][5];
+        int contador = 0;
+        int anioActual = 2026;
+        int opcion = 0;
+
+        do {
+            System.out.println("\n--- MENÚ DE ASPIRANTES ---");
+            System.out.println("1. Agregar aspirante");
+            System.out.println("2. Aspirantes ingresados");
+            System.out.println("3. Escoger aspirante al azar y comparar edad");
+            System.out.println("4. Solicitar cédulas a un vector y mostrar");
+            System.out.println("5. Salir");
+            System.out.print("Elija una opción: ");
+            opcion = sc.nextInt();
+            sc.nextLine();
+
+            switch (opcion) {
+                case 1:
+                    if (contador >= 10) {
+                        System.out.println("Error.. La matriz ya está llena (máximo 10 personas)");
+                    } else {
+                        System.out.println("\n--- Ingreso de Aspirante #" + (contador + 1) + " ---");
+                        System.out.print("Número de cédula: ");
+                        aspirantes[contador][0] = sc.nextLine();
+
+                        System.out.print("Nombre: ");
+                        aspirantes[contador][1] = sc.nextLine();
+
+                        System.out.print("Año de nacimiento: ");
+                        aspirantes[contador][2] = sc.nextLine();
+
+                        System.out.print("Género: ");
+                        aspirantes[contador][3] = sc.nextLine();
+
+                        System.out.print("Profesión: ");
+                        aspirantes[contador][4] = sc.nextLine();
+
+                        contador++;
+                        System.out.println("Aspirante guardado");
+                    }
+                    break;
+
+                case 2:
+                    if (contador == 0) {
+                        System.out.println("No hay ningún aspirante ingresado todavía.");
+                    } else {
+                        System.out.println("\n--- LISTA DE ASPIRANTES ---");
+                        for (int i = 0; i < contador; i++) {
+                            System.out.println(i + 1) + ". Cédula: " + aspirantes[i][0]
+                            System.out.println("-Nombre: ") + aspirantes[i][1]
+                            System.out.println("-Año Nacto.: ") + aspirantes[i][2]
+                            System.out.println("-Género: ") + aspirantes[i][3]
+                            System.out.println("-Profesión: ") + aspirantes[i][4];
+                        }
+                    }
+                    break;
+
+                case 3:
+                    if (contador == 0) {
+                        System.out.println("No hay aspirantes para seleccionar.");
+                    } else {
+                        int numAleatorio = random.nextInt(10) + 1;
+                        System.out.println("\nNúmero aleatorio generado (1-10): " + numAleatorio);
+
+                        if (numAleatorio > contador) {
+                            System.out.println("La posición " + numAleatorio + " aún está vacía. Solo hay " + contador + " aspirante(s) registrado(s).");
+                        } else {
+                            int indiceSeleccionado = numAleatorio - 1;
+
+                            System.out.println("--- ASPIRANTE SELECCIONADO ---");
+                            System.out.println("Cédula: " + aspirantes[indiceSeleccionado][0]);
+                            System.out.println("Nombre: " + aspirantes[indiceSeleccionado][1]);
+                            System.out.println("Año de nacimiento: " + aspirantes[indiceSeleccionado][2]);
+                            System.out.println("Género: " + aspirantes[indiceSeleccionado][3]);
+                            System.out.println("Profesión: " + aspirantes[indiceSeleccionado][4]);
+
+                            double sumaEdades = 0;
+                            for (int i = 0; i < contador; i++) {
+                                int anioNac = Integer.parseInt(aspirantes[i][2]);
+                                sumaEdades += (añoActual - añoNac);
+                            }
+                            double promedioEdad = sumaEdades / contador;
+
+                            int añoSeleccionado = Integer.parseInt(aspirantes[indiceSeleccionado][2]);
+                            int edadSeleccionado = añoActual - añoSeleccionado;
+
+                            System.out.printf("\nPromedio de edad del grupo: %.1f años\n", promedioEdad);
+                            System.out.println("Edad de " + aspirantes[indiceSeleccionado][1] + ": " + edadSeleccionado + " años");
+
+                            if (edadSeleccionado > promedioEdad) {
+                                System.out.println("Resultado: La persona seleccionada es MAYOR que el promedio");
+                            } else if (edadSeleccionado < promedioEdad) {
+                                System.out.println("Resultado: La persona seleccionada es MENOR que el promedio");
+                            } else {
+                                System.out.println("Resultado: La persona seleccionada tiene exactamente la MISMA edad que el promedio");
+                            }
+                        }
+                    }
+                    break;
+
+                case 4:
+                    if (contador == 0) {
+                        System.out.println("No hay datos en la matriz para extraer.");
+                    } else {
+                        String[] vectorCedulas = new String[10];
+
+                        for (int i = 0; i < contador; i++) {
+                            vectorCedulas[i] = aspirantes[i][0];
+                        }
+
+                        System.out.println("\n--- VECTOR DE CÉDULAS ---");
+                        System.out.print("[ ");
+                        for (int i = 0; i < vectorCedulas.length; i++) {
+                            if (vectorCedulas[i] != null) {
+                                System.out.print(vectorCedulas[i]);
+                            } else {
+                                System.out.print("Vacío");
+                            }
+                            
+                            if (i < vectorCedulas.length - 1) {
+                                System.out.print(" | ");
+                            }
+                        }
+                        System.out.println(" ]");
+                    }
+                    break;
+
+                case 5:
+                    System.out.println("Hasta luego.");
+                    break;
+
+                default:
+                    System.out.println("Opción no válida... Intente de nuevo");
+            }
+
+        } while (opcion != 5);
+
+        sc.close();
+    }
+}
